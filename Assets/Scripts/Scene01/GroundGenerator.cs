@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GroundGenerator : MonoBehaviour {
 	public GameObject groundCell;
+	public GameObject letter;
 	
 	// Use this for initialization
 	void Start ()
@@ -19,6 +20,9 @@ public class GroundGenerator : MonoBehaviour {
 			newPosition.x = x;
 			x += rage.GetSizeX ();
 			if (nCells == hole || nCells + 1 == hole) {
+				Vector3 letterPo = newPosition;
+				letterPo.y += rage.GetSizeY() * 3f;
+				letter.transform.position = letterPo;
 				continue;
 			}
 			GameObject newCell = Instantiate (groundCell, newPosition, Quaternion.identity) as GameObject;

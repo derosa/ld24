@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour {
 		if (transform.position.y < 0.0f) {
 			transform.position = initialPosition;
 			rigidbody.velocity = Vector3.zero;
+			GameObject.FindGameObjectWithTag("GameController").SendMessage("ResetGame");
 		}
 		
 	}

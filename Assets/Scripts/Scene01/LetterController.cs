@@ -6,15 +6,14 @@ using System.Collections;
 
 public class LetterController : MonoBehaviour {
 	private bool alreadyCaptured = false;
-	private string spriteName;
+	private Vector3 originalSize;
 	private RagePixelSprite rage;
-	private int spriteRow;
 	
 	void Start ()
 	{
 		rage = GetComponent<RagePixelSprite> ();
-		spriteName = rage.name;
-		spriteRow = rage.GetCurrentRowIndex();
+		rage.SetTintColor (ColorUtils.RandomColor ());
+		originalSize = transform.localScale;
 	}
 	
 	public void OnTriggerEnter (Collider other)
@@ -23,16 +22,41 @@ public class LetterController : MonoBehaviour {
 			if (!alreadyCaptured) {
 				alreadyCaptured = true;
 				Debug.Log ("Letra capturada!");
-				rage.SetSprite ("explosions");
-				rage.PlayAnimation();
+				StartCapturedTweening ();
 			}
 		}
 	}
 	
+	private void StartCapturedTweening ()
+	{
+		iTween.ValueTo (gameObject, iTween.Hash ("name", "alpha", 
+			"from", 1.0f, 
+			"to", 0.0f, 
+			"time", 0.5f, 
+			"onupdate", "UpdateAlpha"));
+		
+		Vector3 scale = Vector3.zero;
+		//scale.x = rage.GetSizeX () * 2f;
+		//scale.y = rage.GetSizeY () * 2f;
+		
+		scale.x = 5f;
+		scale.y = 5f;
+
+		iTween.ScaleTo (gameObject, scale, 0.25f);
+			
+	}
+	private void UpdateAlpha (float a)
+	{
+		Color tint = rage.tintColor;
+		tint.a = a;
+		rage.SetTintColor(tint);
+	}
+	
 	public void Reset ()
 	{
+		iTween.Stop();
 		alreadyCaptured = false;
-		rage.SetSprite (spriteName);
-		rage.selectRow(spriteRow);
+		rage.SetTintColor (ColorUtils.RandomColor());
+		transform.localScale = originalSize;
 	}
 }
