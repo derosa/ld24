@@ -9,6 +9,7 @@ public class CastleBottomController : MonoBehaviour {
 	
 	public void OnMouseDown ()
 	{
+		Debug.Log ("Click");
 		nClicksToBreak--;
 		if (nClicksToBreak < 0) {
 			ExplodeAndDestroy ();
@@ -24,7 +25,12 @@ public class CastleBottomController : MonoBehaviour {
 		Destroy (gameObject);
 	}
 	
-	private void ChangeSprite(int damage){
-		Debug.Log ("Cambiar el sprite");
+	private void ChangeSprite (int damage)
+	{
+		for (int t=0; t < transform.childCount; t++) {
+			GameObject o = transform.GetChild(t).gameObject;
+			RagePixelSprite rage = o.GetComponent<RagePixelSprite>();
+			rage.SetSprite("castle_base", 1);
+		}
 	}
 }
