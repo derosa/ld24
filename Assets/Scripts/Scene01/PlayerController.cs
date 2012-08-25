@@ -44,8 +44,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		
-		
-		if (Input.GetAxis ("Vertical") == 1.0f && !jumping) {
+		if (Input.GetAxis ("Vertical") > 0.0f && !jumping) {
 			rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
 			jumping = true;
 		}
@@ -71,7 +70,6 @@ public class PlayerController : MonoBehaviour {
 	
 	void OnCollisionExit (Collision col)
 	{
-		
 		if (col.transform.CompareTag ("ground")) {
 			jumping = true;
 		}
