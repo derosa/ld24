@@ -3,13 +3,9 @@ using System.Collections;
 
 public class NextButton : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+	public int sceneToLoad = 0;
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void OnMouseDown(){
+		Application.LoadLevel(sceneToLoad);
 	}
 }
