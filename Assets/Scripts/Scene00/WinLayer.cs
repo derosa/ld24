@@ -12,6 +12,7 @@ public class WinLayer : MonoBehaviour {
 		transform.position = ScreenInfo.GetInstance ().Center ();
 		text.gameObject.active = false;
 		Vector3 newPos = ScreenInfo.GetInstance ().Center ();
+		transform.position = newPos;
 		nextButton.gameObject.active = false;
 		gameObject.SetActiveRecursively (false);
 		

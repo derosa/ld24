@@ -21,7 +21,7 @@ public class PlainGroundGenerator : MonoBehaviour {
 			x += rage.GetSizeX ();
 			GameObject newCell = Instantiate (groundCell, newPosition, Quaternion.identity) as GameObject;
 			rage = newCell.GetComponent<RagePixelSprite> ();
-			rage.selectCell (Random.Range (0, 4));
+			rage.SetSprite("ground_tiles", Random.Range (0, 4));
 		}
 		
 		newPosition.y += door.GetComponent<RagePixelSprite> ().GetSizeY ();
