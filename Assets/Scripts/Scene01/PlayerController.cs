@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-	private float speed = 100.0f;
+
+	public float jumpPower = 200f;
+	public float playerSpeed = 100.0f;
 	private bool jumping = false;
 	private Vector3 initialPosition;
 	private IRagePixel rage;
@@ -20,10 +22,21 @@ public class PlayerController : MonoBehaviour {
 	{
 		float axis = Input.GetAxis ("Horizontal");
 		if (axis != 0.0f) {
-			Vector3 newPos = transform.position;
-			newPos.x += speed * Time.deltaTime * axis;
-			newPos.x = Mathf.Clamp(newPos.x, 0f, ScreenInfo.GetInstance().Width()-rage.GetSizeX());
+			/*Vector3 newPos = transform.position;
+			newPos.x += playerSpeed * Time.deltaTime * axis;
+			newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
 			transform.position = newPos;
+			*/
+			if (transform.position.x < 0 || transform.position.x > ScreenInfo.GetInstance ().Width () - rage.GetSizeX ()) {
+				rigidbody.velocity = Vector3.zero;
+				Vector3 newPos = transform.position;
+				newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
+				transform.position = newPos;
+			}
+
+			Vector3 newVelocity = new Vector3 (axis * playerSpeed, rigidbody.velocity.y, 0.0f);
+			rigidbody.velocity = newVelocity;
+			
 			if (axis < 0.0f) {
 				rage.SetHorizontalFlip (true);
 			} else {
@@ -31,9 +44,9 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		
-		axis = Input.GetAxis ("Vertical");
-		if (axis > 0.0f && !jumping) {
-			rigidbody.AddForce (Vector3.up * 200f, ForceMode.VelocityChange);
+		
+		if (Input.GetAxis ("Vertical") == 1.0f && !jumping) {
+			rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
 			jumping = true;
 		}
 		
