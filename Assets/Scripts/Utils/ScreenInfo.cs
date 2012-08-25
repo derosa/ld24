@@ -33,8 +33,17 @@ public class ScreenInfo {
 	
 	}
 	
-	public Vector3 Center(){
+	public Vector3 Center ()
+	{
 		return center;
+	}
+	
+	public Vector3 ScreenCoordToGame (Vector3 pos)
+	{
+		float xPos = pos.x / Screen.width;
+		float yPos = pos.y / Screen.height;
+		Vector3 p = new Vector3 (xPos * width, yPos * height, 0f);
+		return p;
 	}
 	
 	
