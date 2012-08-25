@@ -15,7 +15,8 @@ public class WinController : MonoBehaviour {
 
 	public void LetterCaptured ()
 	{
-		door.GetComponent<RagePixelSprite> ().PlayNamedAnimation ("open");
+		door.SendMessage("CanEnter", true);
+		
 	}
 	
 	public void DoorEntered ()
@@ -27,7 +28,7 @@ public class WinController : MonoBehaviour {
 	
 	public void ResetGame ()
 	{
-		
+		door.SendMessage("CanEnter", false);
 		letter.SendMessage ("Reset");
 		
 	}

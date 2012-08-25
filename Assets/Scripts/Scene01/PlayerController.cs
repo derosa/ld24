@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
 		if (axis != 0.0f) {
 			Vector3 newPos = transform.position;
 			newPos.x += speed * Time.deltaTime * axis;
+			newPos.x = Mathf.Clamp(newPos.x, 0f, ScreenInfo.GetInstance().Width()-rage.GetSizeX());
 			transform.position = newPos;
 			if (axis < 0.0f) {
 				rage.SetHorizontalFlip (true);
@@ -39,7 +40,7 @@ public class PlayerController : MonoBehaviour {
 		if (transform.position.y < 0.0f) {
 			transform.position = initialPosition;
 			rigidbody.velocity = Vector3.zero;
-			GameObject.FindGameObjectWithTag("GameController").SendMessage("ResetGame");
+			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
 		}
 		
 	}
@@ -50,17 +51,10 @@ public class PlayerController : MonoBehaviour {
 			Vector3 newVel = rigidbody.velocity;
 			newVel.y = 0.0f;
 			rigidbody.velocity = newVel;
+					jumping = false;
 		}
 	}
 		
-	
-	void OnCollisionStay (Collision col)
-	{
-		
-		if (col.gameObject.CompareTag ("ground")) {
-			jumping = false;
-		}
-	}
 	
 	void OnCollisionExit (Collision col)
 	{
