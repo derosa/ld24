@@ -24,7 +24,7 @@ public class RagePixelCamera : MonoBehaviour {
 
 	void Start()
 	{
-
+		ResetCamera();
 	}
 
 	public void OnPostRender()
@@ -42,9 +42,24 @@ public class RagePixelCamera : MonoBehaviour {
 		SnapToIntegerPosition();
 	}
 
-	public void ResetCamera()
+	public void ResetCamera ()
 	{
+		Camera camera = GetComponent (typeof(Camera)) as Camera;
+		RagePixelCamera ragePixelCamera = camera.GetComponent<RagePixelCamera>();
 
+		camera.orthographic = true;
+
+		float screenW = ragePixelCamera.resolutionPixelWidth;
+		float screenH = ragePixelCamera.resolutionPixelHeight;
+
+		Vector3 position = Vector3.zero;
+
+		position.z = -10.0f;
+		position.x = screenW / 2 / ragePixelCamera.pixelSize;
+		position.y = screenH / 2 / ragePixelCamera.pixelSize;
+
+		camera.transform.position = position;
+		camera.orthographicSize = screenH / 2 / ragePixelCamera.pixelSize;
 	}
-
+	
 }

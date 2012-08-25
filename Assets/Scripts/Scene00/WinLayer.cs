@@ -12,10 +12,7 @@ public class WinLayer : MonoBehaviour {
 		transform.position = ScreenInfo.GetInstance ().Center ();
 		text.gameObject.active = false;
 		Vector3 newPos = ScreenInfo.GetInstance ().Center ();
-		newPos.y = nextButton.GetComponent<RagePixelSprite>().GetSizeY();
-		nextButton.transform.position = newPos;
 		nextButton.gameObject.active = false;
-		
 		gameObject.SetActiveRecursively (false);
 		
 	}
@@ -23,9 +20,7 @@ public class WinLayer : MonoBehaviour {
 	void Update ()
 	{
 		text.gameObject.active = true;
-		nextButton.gameObject.active = true;
-		text.text = "Every Evolution\n" +
-			" has a beginning...";
+		nextButton.SetActiveRecursively(true);
 		foreach (GameObject o in disabledObjects) {
 			o.SetActiveRecursively (false);
 		}

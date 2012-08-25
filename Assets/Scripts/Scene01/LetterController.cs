@@ -23,6 +23,7 @@ public class LetterController : MonoBehaviour {
 				alreadyCaptured = true;
 				Debug.Log ("Letra capturada!");
 				StartCapturedTweening ();
+				GameObject.FindGameObjectWithTag("GameController").SendMessage("LetterCaptured");
 			}
 		}
 	}

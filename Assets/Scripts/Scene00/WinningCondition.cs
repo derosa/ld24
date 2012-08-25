@@ -6,8 +6,9 @@ public class WinningCondition : MonoBehaviour {
 	private bool alreadyWon = false;
 	
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+		CameraUtils.ResetCamera ();
 	}
 	
 	// Update is called once per frame
