@@ -6,13 +6,15 @@ public class Scene03_GameController : MonoBehaviour {
 	public GameObject doorSpawner;
 	public GameObject player;
 	public GameObject letter;
+	public GameObject misteryLayer;
 	
-	private int nLevels = 1;
+	private int nLevels = 2;
 	private int currentLevel = 0;
 	private ArrayList doors; // Good doors. No die.
 	
 	void Start ()
 	{
+		misteryLayer.active = false;
 		doors = new ArrayList ();
 		for (int t = 0; t < nLevels; t++) {
 			string goodDoor = Random.value < 0.5f ? "left" : "right";
@@ -85,7 +87,23 @@ public class Scene03_GameController : MonoBehaviour {
 
 	private void NextLevel ()
 	{
+		misteryLayer.active = true;
+		iTween.VelueTo (misteryLayer, iTween.Hash ("to", 0.0f,
+			"from", 1.0f,
+			"time", 1f,
+			"delay", 0.25f,
+			"easetype", iTween.EaseType.easeInOutCubic,
+			"onupdate", "FadeOut"));
 		RequestSpawnDoors ();	
+	}
+	
+	private void FadeOut(){
+				iTween.ValueTo (misteryLayer, iTween.Hash ("to", 0.0f,
+			"from", 1.0f,
+			"time", 1f,
+			"delay", 0.25f,
+			"easetype", iTween.EaseType.easeInOutCubic,
+			"onupdate", "FadeOut")).Tween();
 	}
 	
 	
