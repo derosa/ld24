@@ -28,13 +28,6 @@ public class PlayerController : MonoBehaviour {
 			newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
 			transform.position = newPos;
 			*/
-			if (transform.position.x < 0 || transform.position.x > ScreenInfo.GetInstance ().Width () - rage.GetSizeX ()) {
-				//rigidbody.velocity = Vector3.zero;
-				velocity = Vector3.zero;
-				Vector3 newPos = transform.position;
-				newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
-				transform.position = newPos;
-			}
 			
 			velocity = new Vector3 (playerSpeed * axis, velocity.y, 0.0f);
 			
@@ -59,9 +52,18 @@ public class PlayerController : MonoBehaviour {
 
 		controller.Move (velocity * Time.deltaTime);
 		
+		if (transform.position.x < 0 || transform.position.x > ScreenInfo.GetInstance ().Width () - rage.GetSizeX ()) {
+			//rigidbody.velocity = Vector3.zero;
+			velocity = Vector3.zero;
+			Vector3 newPos = transform.position;
+			newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
+			transform.position = newPos;
+		}
+
+		
 		if (transform.position.y < 0.0f) {
 			transform.position = initialPosition;
-			rigidbody.velocity = Vector3.zero;
+			velocity = Vector3.zero;
 			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
 		}
 		

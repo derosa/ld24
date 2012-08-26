@@ -87,7 +87,7 @@ public class Scene03_GameController : MonoBehaviour {
 		while (letter.GetComponent<RagePixelSprite>().isPlaying()) {
 			yield return new WaitForSeconds(.2f);
 		}
-		Application.LoadLevel (nextLevel);
+		//Application.LoadLevel (nextLevel);
 
 	}
 	private void ResetLogic ()
