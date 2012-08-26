@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Scene03_GameController : MonoBehaviour {
+	public int numberOfLevels;
 	public GameObject[] restartableObjects;
 	public GameObject doorSpawner;
 	public GameObject player;
@@ -10,7 +11,6 @@ public class Scene03_GameController : MonoBehaviour {
 	public GUIText againText;
 	public int nextLevel;
 	
-	private int nLevels = 2;
 	private int currentLevel = 0;
 	private ArrayList doors; // Good doors. No die.
 	
@@ -19,7 +19,7 @@ public class Scene03_GameController : MonoBehaviour {
 		misteryLayer.active = false;
 		againText.enabled = false;
 		doors = new ArrayList ();
-		for (int t = 0; t < nLevels; t++) {
+		for (int t = 0; t < numberOfLevels; t++) {
 			string goodDoor = Random.value < 0.5f ? "left" : "right";
 			doors.Add (goodDoor);
 			Debug.Log ("Good door: " + goodDoor);
@@ -42,14 +42,14 @@ public class Scene03_GameController : MonoBehaviour {
 	
 	public void ChosenDoor (string w)
 	{
-		if (currentLevel >= nLevels) {
+		if (currentLevel >= numberOfLevels) {
 			return;
 		}
 		
 		if (IsGoodDoor (w)) {
 			Debug.Log ("Puerta buena, pasamos al siguiente");
 			currentLevel++;
-			if (currentLevel == nLevels) {
+			if (currentLevel == numberOfLevels) {
 				WonGame ();
 			} else {
 				StartCoroutine (NextLevel ());
@@ -67,13 +67,7 @@ public class Scene03_GameController : MonoBehaviour {
 		
 	}
 	
-	public void ResetGame ()
-	{
-		ResetLogic ();
-		foreach (GameObject o in restartableObjects) {
-			o.SendMessage ("Reset");
-		}
-	}
+
 	
 	public void LetterCaptured ()
 	{
@@ -87,12 +81,8 @@ public class Scene03_GameController : MonoBehaviour {
 		while (letter.GetComponent<RagePixelSprite>().isPlaying()) {
 			yield return new WaitForSeconds(.2f);
 		}
-		//Application.LoadLevel (nextLevel);
+		Application.LoadLevel (nextLevel);
 
-	}
-	private void ResetLogic ()
-	{
-		
 	}
 
 	private IEnumerator NextLevel ()

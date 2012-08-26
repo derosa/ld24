@@ -16,6 +16,10 @@ public class DoorController : MonoBehaviour {
 	
 	public void CanEnter (bool can)
 	{
+		if (canEnter == can) {
+			return;
+		}
+		
 		IRagePixel rage = GetComponent<RagePixelSprite> ();
 		canEnter = can;
 		if (canEnter) {

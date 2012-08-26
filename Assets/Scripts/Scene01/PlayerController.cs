@@ -5,11 +5,11 @@ public class PlayerController : MonoBehaviour {
 
 	public float jumpPower = 200f;
 	public float playerSpeed = 100.0f;
-	private bool canJump = true;
 	private Vector3 initialPosition;
 	private IRagePixel rage;
 	private Vector3 velocity = Vector3.zero;
 	private CharacterController controller;
+	
 	void Start ()
 	{
 		Physics.gravity = new Vector3 (0f, -980f, 0f);
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		
 		if (Input.GetAxis ("Vertical") > 0.0f && controller.isGrounded) {
-			Debug.Log ("Salta");
+			//Debug.Log ("Salta");
 			velocity.y = jumpPower;
 			//rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
 			//canJump = false;
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
 		velocity.y += Physics.gravity.y * Time.deltaTime;
 
 		controller.Move (velocity * Time.deltaTime);
-		
+	/*	
 		if (transform.position.x < 0 || transform.position.x > ScreenInfo.GetInstance ().Width () - rage.GetSizeX ()) {
 			//rigidbody.velocity = Vector3.zero;
 			velocity = Vector3.zero;
@@ -59,34 +59,17 @@ public class PlayerController : MonoBehaviour {
 			newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
 			transform.position = newPos;
 		}
-
+		 
+		 */
 		
-		if (transform.position.y < 0.0f) {
+		if (transform.position.y < -rage.GetSizeY() * 5f) {
 			transform.position = initialPosition;
 			velocity = Vector3.zero;
-			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
+			//GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
 		}
 		
 	}
 	
-	void OnCollisionEnter (Collision other)
-	{
-		if (other.gameObject.CompareTag ("ground")) {
-			Vector3 newVel = rigidbody.velocity;
-			newVel.y = 0.0f;
-			rigidbody.velocity = newVel;
-			canJump = true;		
-		}
-		
-	}
-		
-	
-	void OnCollisionExit (Collision col)
-	{
-		if (col.transform.CompareTag ("ground")) {
-			canJump = false;
-		}
-	}
 	
 	public void Reset ()
 	{
