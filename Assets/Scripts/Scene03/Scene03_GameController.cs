@@ -7,6 +7,8 @@ public class Scene03_GameController : MonoBehaviour {
 	public GameObject player;
 	public GameObject letter;
 	public GameObject misteryLayer;
+	public GUIText againText;
+	public int nextLevel;
 	
 	private int nLevels = 2;
 	private int currentLevel = 0;
@@ -15,6 +17,7 @@ public class Scene03_GameController : MonoBehaviour {
 	void Start ()
 	{
 		misteryLayer.active = false;
+		againText.enabled = false;
 		doors = new ArrayList ();
 		for (int t = 0; t < nLevels; t++) {
 			string goodDoor = Random.value < 0.5f ? "left" : "right";
@@ -39,7 +42,7 @@ public class Scene03_GameController : MonoBehaviour {
 	
 	public void ChosenDoor (string w)
 	{
-		if (currentLevel > nLevels) {
+		if (currentLevel >= nLevels) {
 			return;
 		}
 		
@@ -49,13 +52,10 @@ public class Scene03_GameController : MonoBehaviour {
 			if (currentLevel == nLevels) {
 				WonGame ();
 			} else {
-				NextLevel();
+				StartCoroutine (NextLevel ());
 			}
 		} else {
-			Debug.Log ("Puerta MALA. Reiniciar el juego");
-			player.SendMessage ("Die");
-			RequestSpawnDoors ();
-			currentLevel = 0;
+			StartCoroutine(StartAgain());
 		}
 	}
 	
@@ -77,34 +77,53 @@ public class Scene03_GameController : MonoBehaviour {
 	
 	public void LetterCaptured ()
 	{
-		Debug.Log ("Fase ganado!");
+		StartCoroutine (WaitAndLoadNextLevel ());
+		
 	}
-	
+
+	public IEnumerator WaitAndLoadNextLevel ()
+	{
+		Debug.Log ("Fase ganado!");
+		while (letter.GetComponent<RagePixelSprite>().isPlaying()) {
+			yield return new WaitForSeconds(.2f);
+		}
+		Application.LoadLevel (nextLevel);
+
+	}
 	private void ResetLogic ()
 	{
 		
 	}
 
-	private void NextLevel ()
+	private IEnumerator NextLevel ()
 	{
 		misteryLayer.active = true;
-		iTween.VelueTo (misteryLayer, iTween.Hash ("to", 0.0f,
-			"from", 1.0f,
-			"time", 1f,
-			"delay", 0.25f,
-			"easetype", iTween.EaseType.easeInOutCubic,
-			"onupdate", "FadeOut"));
-		RequestSpawnDoors ();	
+		misteryLayer.renderer.material.color = Color.black;
+		player.SendMessage ("Reset");
+		yield return new WaitForSeconds(0.5f);
+		misteryLayer.active = false;
+		RequestSpawnDoors ();
 	}
 	
-	private void FadeOut(){
-				iTween.ValueTo (misteryLayer, iTween.Hash ("to", 0.0f,
-			"from", 1.0f,
-			"time", 1f,
-			"delay", 0.25f,
-			"easetype", iTween.EaseType.easeInOutCubic,
-			"onupdate", "FadeOut")).Tween();
+	private void Fade (float value)
+	{
+		Debug.Log ("Updating... " + value);
+		Color c = gameObject.renderer.material.color;
+		c.a = value;
+		gameObject.renderer.material.color = c;
 	}
 	
+	private IEnumerator StartAgain ()
+	{
+		Debug.Log ("Puerta MALA. Reiniciar el juego");
+		againText.enabled = true;
+		player.SendMessage ("Die");
+		yield return new WaitForSeconds(1.0f);
+		againText.enabled = false;
+		player.SendMessage("Reset");
+		RequestSpawnDoors ();
+		currentLevel = 0;
+
+	}
 	
 }

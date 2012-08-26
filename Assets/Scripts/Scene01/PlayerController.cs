@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float jumpPower = 200f;
 	public float playerSpeed = 100.0f;
-	private bool jumping = false;
+	private bool canJump = true;
 	private Vector3 initialPosition;
 	private IRagePixel rage;
 	
@@ -44,9 +44,9 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetAxis ("Vertical") > 0.0f && !jumping) {
+		if (Input.GetAxis ("Vertical") > 0.0f && canJump) {
 			rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
-			jumping = true;
+			canJump = false;
 		}
 		
 		if (transform.position.y < 0.0f) {
@@ -57,21 +57,22 @@ public class PlayerController : MonoBehaviour {
 		
 	}
 	
-	void OnCollisionEnter (Collision col)
+	void OnCollisionEnter (Collision other)
 	{
-		if (col.gameObject.CompareTag ("ground")) {
+		if (other.gameObject.CompareTag ("ground")) {
 			Vector3 newVel = rigidbody.velocity;
 			newVel.y = 0.0f;
 			rigidbody.velocity = newVel;
-					jumping = false;
+			canJump = true;		
 		}
+		
 	}
 		
 	
 	void OnCollisionExit (Collision col)
 	{
 		if (col.transform.CompareTag ("ground")) {
-			jumping = true;
+			canJump = false;
 		}
 	}
 	
@@ -91,14 +92,12 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator DoDie ()
 	{
 		IRagePixel rage = GetComponent<RagePixelSprite> ();
-			
 		rage.StopAnimation ();
 		rage.SetSprite ("explosion");
 		rage.PlayNamedAnimation ("explode");
 		while (rage.isPlaying()) {
 			yield return new WaitForSeconds(0.1f);
 		}
-		Reset ();
 		yield return 0;
 	}
 }
