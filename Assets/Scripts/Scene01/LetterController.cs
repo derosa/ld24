@@ -57,8 +57,12 @@ public class LetterController : MonoBehaviour {
 	
 	public void Reset ()
 	{
-		gameObject.active = true;
-		iTween.Stop ();
+		if (gameObject != null) {
+			gameObject.active = true;
+		}
+		
+	//	iTween.Stop ();
+		
 		alreadyCaptured = false;
 		rage.SetTintColor (ColorUtils.RandomColor ());
 		transform.localScale = originalSize;

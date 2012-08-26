@@ -9,8 +9,7 @@ public class Scene04_WallOfDoom : MonoBehaviour {
 	void Start ()
 	{
 		_initialPosition = transform.position;
-		Reset();
-		
+		Reset ();
 	}
 	
 	void Update ()
