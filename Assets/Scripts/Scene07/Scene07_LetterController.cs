@@ -17,12 +17,17 @@ public class Scene07_LetterController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		if (gameObject.active && _alreadyCaptured) {
+			Vector3 newPos = Camera.main.ViewportToWorldPoint (new Vector3 (0.5f, 0.5f, 10f));
+			transform.position = newPos;
+		}
 	}
 	
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.CompareTag ("Player") && !_alreadyCaptured) {
 			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("LetterGrabbed");
+			// Lets reposition in front of the player, so the fade looks nice.
 			_alreadyCaptured = true;
 			StartCapturedTweening ();
 			
