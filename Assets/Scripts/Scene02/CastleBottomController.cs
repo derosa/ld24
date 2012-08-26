@@ -4,8 +4,14 @@ using System.Collections;
 public class CastleBottomController : MonoBehaviour {
 	
 	public GameObject castleTop;
+	public GameObject damageLayer;
+	public int clicksToBreak = 5;
+	private int nClicksToBreak = 5;
 	
-	private int nClicksToBreak = 4;
+	void Start ()
+	{
+		nClicksToBreak = clicksToBreak;
+	}
 	
 	public void OnMouseDown ()
 	{
@@ -22,25 +28,29 @@ public class CastleBottomController : MonoBehaviour {
 	private void ExplodeAndDestroy ()
 	{
 		RagePixelSprite r = null;
+		damageLayer.active=false;
 		for (int t=0; t < transform.childCount; t++) {
 			GameObject o = transform.GetChild (t).gameObject;
 			r = o.GetComponent<RagePixelSprite> ();
-			r.SetSprite ("explosion", 0);
-			r.PlayNamedAnimation ("explode");
+			if (r != null) {
+				r.SetSprite ("explosion", 0);
+				r.PlayNamedAnimation ("explode");
+			}
 		}
 			
 		Debug.Log ("BOOM");
 		castleTop.SendMessage ("Fall");
-		StartCoroutine(WaitForAnimationAndDestroy(r));
+		StartCoroutine (WaitForAnimationAndDestroy (r));
 		//Destroy (gameObject);
 	}
 	
 	private void ChangeSprite (int damage)
 	{
+		int level = clicksToBreak - nClicksToBreak;
 		for (int t=0; t < transform.childCount; t++) {
 			GameObject o = transform.GetChild (t).gameObject;
-			RagePixelSprite rage = o.GetComponent<RagePixelSprite> ();
-			rage.SetSprite ("castle_base", damage);
+			RagePixelSprite rage = damageLayer.GetComponent<RagePixelSprite> ();
+			rage.SetSprite ("castleDamage", level);
 		}
 	}
 	
