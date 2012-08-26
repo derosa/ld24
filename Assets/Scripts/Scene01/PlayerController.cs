@@ -8,13 +8,14 @@ public class PlayerController : MonoBehaviour {
 	private bool canJump = true;
 	private Vector3 initialPosition;
 	private IRagePixel rage;
-	
+	private Vector3 velocity = Vector3.zero;
+	private CharacterController controller;
 	void Start ()
 	{
 		Physics.gravity = new Vector3 (0f, -980f, 0f);
 		initialPosition = transform.position;
-		rage = GetComponent<RagePixelSprite>();
-		
+		rage = GetComponent<RagePixelSprite> ();
+		controller = GetComponent<CharacterController>();	
 	}
 	
 	// Update is called once per frame
@@ -28,14 +29,18 @@ public class PlayerController : MonoBehaviour {
 			transform.position = newPos;
 			*/
 			if (transform.position.x < 0 || transform.position.x > ScreenInfo.GetInstance ().Width () - rage.GetSizeX ()) {
-				rigidbody.velocity = Vector3.zero;
+				//rigidbody.velocity = Vector3.zero;
+				velocity = Vector3.zero;
 				Vector3 newPos = transform.position;
 				newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
 				transform.position = newPos;
 			}
-
-			Vector3 newVelocity = new Vector3 (axis * playerSpeed, rigidbody.velocity.y, 0.0f);
-			rigidbody.velocity = newVelocity;
+			
+			velocity = new Vector3 (playerSpeed * axis, velocity.y, 0.0f);
+			
+				
+			//Vector3 newVelocity = new Vector3 (axis * playerSpeed, rigidbody.velocity.y, 0.0f);
+			//rigidbody.velocity = newVelocity;
 			
 			if (axis < 0.0f) {
 				rage.SetHorizontalFlip (true);
@@ -44,10 +49,15 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetAxis ("Vertical") > 0.0f && canJump) {
-			rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
-			canJump = false;
+		if (Input.GetAxis ("Vertical") > 0.0f && controller.isGrounded) {
+			Debug.Log ("Salta");
+			velocity.y = jumpPower;
+			//rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
+			//canJump = false;
 		}
+		velocity.y += Physics.gravity.y * Time.deltaTime;
+
+		controller.Move (velocity * Time.deltaTime);
 		
 		if (transform.position.y < 0.0f) {
 			transform.position = initialPosition;
