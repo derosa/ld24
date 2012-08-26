@@ -32,15 +32,14 @@ public class Scene04_WallOfDoom : MonoBehaviour {
 	
 	public void Reset ()
 	{
-		_move = false;
-		transform.position = _initialPosition;
 		GameObject.FindGameObjectWithTag("GameController").SendMessage("ResetGame");
-		Restart ();
 	}
 	
 	private void Restart ()
 	{
-		StopAllCoroutines();
+		_move = false;
+		transform.position = _initialPosition;
+		StopAllCoroutines ();
 		StartCoroutine (DoRestartWall ());
 	}
 	

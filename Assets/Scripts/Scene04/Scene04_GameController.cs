@@ -31,7 +31,7 @@ public class Scene04_GameController : MonoBehaviour {
 
 	public void ResetGame ()
 	{
-		GameObject.FindGameObjectWithTag ("Wall").SendMessage ("Reset");
+		GameObject.FindGameObjectWithTag ("Wall").SendMessage ("Restart");
 		letter.SendMessage ("Reset");
 		door.SendMessage ("CanEnter", false);
 	}

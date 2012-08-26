@@ -107,13 +107,17 @@ public class Scene03_GameController : MonoBehaviour {
 	{
 		Debug.Log ("Puerta MALA. Reiniciar el juego");
 		againText.enabled = true;
-		player.SendMessage ("Die");
+		player.SendMessage ("Die", false);
 		yield return new WaitForSeconds(1.0f);
 		againText.enabled = false;
-		player.SendMessage("Reset");
+		player.SendMessage ("Reset");
 		RequestSpawnDoors ();
 		currentLevel = 0;
 
+	}
+	
+	public void ResetGame(){
+		// Placeholder para el player. NO BORRAR.
 	}
 	
 }

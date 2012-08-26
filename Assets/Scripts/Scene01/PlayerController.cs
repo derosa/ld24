@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
 		velocity.y += Physics.gravity.y * Time.deltaTime;
 
 		controller.Move (velocity * Time.deltaTime);
-	/*	
+		/*	
 		if (transform.position.x < 0 || transform.position.x > ScreenInfo.GetInstance ().Width () - rage.GetSizeX ()) {
 			//rigidbody.velocity = Vector3.zero;
 			velocity = Vector3.zero;
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 		 
 		 */
 		
-		if (transform.position.y < -rage.GetSizeY() * 5f) {
+		if (transform.position.y < -rage.GetSizeY () * 5f) {
 			transform.position = initialPosition;
 			velocity = Vector3.zero;
 			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
