@@ -4,6 +4,10 @@ using System.Collections;
 public class Screen09_PlayerController : MonoBehaviour {
 	
 	public float playerSpeed = 100.0f;
+	public float fireRate = 10.0f;
+	
+	public GameObject bullet;
+	
 	private Vector3 initialPosition;
 	private IRagePixel rage;
 	
@@ -19,7 +23,8 @@ public class Screen09_PlayerController : MonoBehaviour {
 	void Update ()
 	{
 		UpdateKeyboardInput ();
-		UpdateMouseInput();
+		UpdateMouseInput ();
+		UpdateFire();
 	}	
 	
 	private void UpdateKeyboardInput ()
@@ -44,7 +49,20 @@ public class Screen09_PlayerController : MonoBehaviour {
 	private void UpdateMouseInput ()
 	{
 		target = ScreenInfo.GetInstance ().ScreenCoordToGame (Input.mousePosition);
-		rage.SetHorizontalFlip(target.x < transform.position.x);
+		rage.SetHorizontalFlip (target.x < transform.position.x);
+	}
+	
+	private void UpdateFire ()
+	{
+		if (Input.GetMouseButtonDown (0) || Input.GetButtonDown ("Fire1")) {
+			Fire ();
+		}
+	}
+	
+	public void Fire ()
+	{
+		GameObject b = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
+		b.SendMessage("SetTarget", target);
 	}
 	
 	public void Reset ()
