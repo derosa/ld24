@@ -8,6 +8,7 @@ public class DoorController : MonoBehaviour {
 	
 	public void OnTriggerEnter (Collider other)
 	{
+		Debug.Log ("Winning door trigger by " + other.gameObject.tag);
 		if (other.CompareTag ("Player") && canEnter) {
 			collider.enabled = false;
 			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("DoorEntered");

@@ -18,6 +18,7 @@ public class LetterController : MonoBehaviour {
 	
 	public void OnTriggerEnter (Collider other)
 	{
+		Debug.Log ("Letter trigged by " + other.gameObject.name);
 		if (other.CompareTag ("Player")) {
 			if (!alreadyCaptured) {
 				alreadyCaptured = true;
