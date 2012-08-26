@@ -9,7 +9,8 @@ public class Screen09_PlayerController : MonoBehaviour {
 	public GameObject bullet;
 	
 	private Vector3 initialPosition;
-	private IRagePixel rage;
+	private RagePixelSprite rage;
+	private bool flipped = false;
 	
 	private Vector3 target = Vector3.zero;
 	
@@ -18,6 +19,7 @@ public class Screen09_PlayerController : MonoBehaviour {
 		Physics.gravity = new Vector3 (0f, -980f, 0f);
 		initialPosition = transform.position;
 		rage = GetComponent<RagePixelSprite> ();
+		rage.PlayNamedAnimation("idle");
 	}
 	
 	void Update ()
@@ -33,7 +35,8 @@ public class Screen09_PlayerController : MonoBehaviour {
 		if (axis != 0.0f) {
 			Vector3 newPos = transform.position;
 			newPos.x += playerSpeed * Time.deltaTime * axis;
-			newPos.x = Mathf.Clamp (newPos.x, 0f, ScreenInfo.GetInstance ().Width () - rage.GetSizeX ());
+			newPos.x = Mathf.Clamp (newPos.x, rage.GetSizeX () * 0.5f, 
+				ScreenInfo.GetInstance ().Width () - rage.GetSizeX () * 0.5f);
 			transform.position = newPos;
 		}
 		
@@ -41,7 +44,7 @@ public class Screen09_PlayerController : MonoBehaviour {
 		if (axis != 0.0f) {
 			Vector3 newPos = transform.position;
 			newPos.y += playerSpeed * Time.deltaTime * axis;
-			newPos.y = Mathf.Clamp (newPos.y, 0f, ScreenInfo.GetInstance ().Height () - rage.GetSizeY ());
+			newPos.y = Mathf.Clamp (newPos.y, rage.GetSizeY () * 0.5f, ScreenInfo.GetInstance ().Height () - rage.GetSizeY () * 0.5f);
 			transform.position = newPos;
 		}
 	}
@@ -49,7 +52,8 @@ public class Screen09_PlayerController : MonoBehaviour {
 	private void UpdateMouseInput ()
 	{
 		target = ScreenInfo.GetInstance ().ScreenCoordToGame (Input.mousePosition);
-		rage.SetHorizontalFlip (target.x < transform.position.x);
+		flipped = target.x < transform.position.x;
+		rage.SetHorizontalFlip (flipped);
 	}
 	
 	private void UpdateFire ()
@@ -61,8 +65,15 @@ public class Screen09_PlayerController : MonoBehaviour {
 	
 	public void Fire ()
 	{
-		GameObject b = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
-		b.SendMessage("SetTarget", target);
+		Vector3 direction;
+		if (flipped) {
+			direction = Vector3.left;
+		} else {
+			direction = Vector3.right;
+		}
+		direction *= rage.GetSizeX() * 0.75f;
+		GameObject b = Instantiate (bullet, transform.position + direction, Quaternion.identity) as GameObject;
+		b.SendMessage ("SetTarget", target);
 	}
 	
 	public void Reset ()
