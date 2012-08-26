@@ -23,7 +23,7 @@ public class LetterController : MonoBehaviour {
 				alreadyCaptured = true;
 				Debug.Log ("Letra capturada!");
 				StartCapturedTweening ();
-				GameObject.FindGameObjectWithTag("GameController").SendMessage("LetterCaptured");
+				GameObject.FindGameObjectWithTag ("GameController").SendMessage ("LetterCaptured");
 			}
 		}
 	}
@@ -37,9 +37,6 @@ public class LetterController : MonoBehaviour {
 			"onupdate", "UpdateAlpha"));
 		
 		Vector3 scale = Vector3.zero;
-		//scale.x = rage.GetSizeX () * 2f;
-		//scale.y = rage.GetSizeY () * 2f;
-		
 		scale.x = 5f;
 		scale.y = 5f;
 
@@ -55,9 +52,9 @@ public class LetterController : MonoBehaviour {
 	
 	public void Reset ()
 	{
-		iTween.Stop();
+		iTween.Stop ();
 		alreadyCaptured = false;
-		rage.SetTintColor (ColorUtils.RandomColor());
+		rage.SetTintColor (ColorUtils.RandomColor ());
 		transform.localScale = originalSize;
 	}
 }
