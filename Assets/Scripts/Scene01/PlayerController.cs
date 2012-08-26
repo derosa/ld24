@@ -74,4 +74,32 @@ public class PlayerController : MonoBehaviour {
 			jumping = true;
 		}
 	}
+	
+	public void Reset ()
+	{
+		gameObject.transform.position = initialPosition;
+		rage.SetSprite ("e", 0);
+		rage.PlayNamedAnimation ("idle");
+	}
+	
+	
+	public void Die ()
+	{
+		StartCoroutine (DoDie());
+	}
+	
+	IEnumerator DoDie ()
+	{
+		IRagePixel rage = GetComponent<RagePixelSprite> ();
+			
+		rage.StopAnimation ();
+		rage.SetSprite ("explosion");
+		rage.PlayNamedAnimation ("explode");
+		while (rage.isPlaying()) {
+			yield return new WaitForSeconds(0.1f);
+		}
+		Reset ();
+		yield return 0;
+	}
 }
+

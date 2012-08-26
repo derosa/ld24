@@ -4,8 +4,10 @@ using System.Collections;
 public class Scene03_GameController : MonoBehaviour {
 	public GameObject[] restartableObjects;
 	public GameObject doorSpawner;
+	public GameObject player;
+	public GameObject letter;
 	
-	private int nLevels = 3;
+	private int nLevels = 1;
 	private int currentLevel = 0;
 	private ArrayList doors; // Good doors. No die.
 	
@@ -35,18 +37,33 @@ public class Scene03_GameController : MonoBehaviour {
 	
 	public void ChosenDoor (string w)
 	{
+		if (currentLevel > nLevels) {
+			return;
+		}
+		
 		if (IsGoodDoor (w)) {
 			Debug.Log ("Puerta buena, pasamos al siguiente");
 			currentLevel++;
-			RequestSpawnDoors();
+			if (currentLevel == nLevels) {
+				WonGame ();
+			} else {
+				NextLevel();
+			}
 		} else {
 			Debug.Log ("Puerta MALA. Reiniciar el juego");
+			player.SendMessage ("Die");
+			RequestSpawnDoors ();
+			currentLevel = 0;
 		}
 	}
 	
 	
-	
-	
+	private void WonGame ()
+	{
+		Debug.Log ("Letra ganada");
+		letter.SetActiveRecursively(true);
+		
+	}
 	
 	public void ResetGame ()
 	{
@@ -56,7 +73,20 @@ public class Scene03_GameController : MonoBehaviour {
 		}
 	}
 	
-	private void ResetLogic(){
+	public void LetterCaptured ()
+	{
+		Debug.Log ("Fase ganado!");
+	}
+	
+	private void ResetLogic ()
+	{
 		
 	}
+
+	private void NextLevel ()
+	{
+		RequestSpawnDoors ();	
+	}
+	
+	
 }
