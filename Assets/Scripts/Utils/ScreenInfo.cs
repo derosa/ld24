@@ -46,5 +46,11 @@ public class ScreenInfo {
 		return p;
 	}
 	
+	public Vector3 RandomPosition(float margin, float z){
+		float x = Random.Range (margin, width-margin);
+		float y = Random.Range(margin, height-margin);
+		return new Vector3(x, y, z);
+	}
+	
 	
 }

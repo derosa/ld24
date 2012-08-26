@@ -48,11 +48,16 @@ public class LetterController : MonoBehaviour {
 	{
 		Color tint = rage.tintColor;
 		tint.a = a;
-		rage.SetTintColor(tint);
+		rage.SetTintColor (tint);
+		
+		if (a == 0.0f) {
+			//gameObject.active=false;
+		}
 	}
 	
 	public void Reset ()
 	{
+		gameObject.active = true;
 		iTween.Stop ();
 		alreadyCaptured = false;
 		rage.SetTintColor (ColorUtils.RandomColor ());
