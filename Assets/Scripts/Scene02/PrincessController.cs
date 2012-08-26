@@ -12,18 +12,21 @@ public class PrincessController : MonoBehaviour {
 	
 	public void Start ()
 	{
-		rage = GetComponent<RagePixelSprite> ();
-		rage.PlayNamedAnimation("idle");
-		hair = transform.GetChild (0).gameObject;
-		hairRage = hair.GetComponent<RagePixelSprite> ();
-		hair.active = false;
+		Restart();
 		
 	}
 	
-	public void OnMouseDown ()
+	public void Restart ()
 	{
-		Debug.Log ("Pelo");
-		
+		rage = GetComponent<RagePixelSprite> ();
+		rage.PlayNamedAnimation ("idle");
+		hair = transform.GetChild (0).gameObject;
+		hairRage = hair.GetComponent<RagePixelSprite> ();
+		hair.active = false;
+	}
+	
+	public void OnMouseDown ()
+	{		
 		if (hairDeployed == maxHairDeploy) {
 			return;
 		}
@@ -42,8 +45,9 @@ public class PrincessController : MonoBehaviour {
 	
 	public void Fall ()
 	{
-		rage.StopAnimation ();
-		rage.SetSprite ("lady_ld", 2);
+		//rage.StopAnimation ();
+		//rage.SetSprite ("lady_ld", 2);
+		rage.PlayNamedAnimation("panic");
 		iTween.ScaleTo (gameObject, iTween.Hash ("scale", Vector3.one * 10f, 
 			"delay", 0.25f, 
 			"time", 0.5f, 
@@ -58,7 +62,11 @@ public class PrincessController : MonoBehaviour {
 	
 	private void SlideDown ()
 	{
-		iTween.MoveTo (gameObject, iTween.Hash ("position", transform.position + Vector3.down * rage.GetSizeY () * transform.localScale.y, 
+		Vector3 newPosition = transform.position;
+		newPosition.z = -9;
+		transform.position = newPosition;
+		iTween.MoveTo (gameObject, iTween.Hash (
+			"position", transform.position + Vector3.down * rage.GetSizeY () * transform.localScale.y, 
 			"time", 1.5f,
 			"easetype", iTween.EaseType.easeInExpo,
 			"oncomplete", "DestroyPrincess"));
