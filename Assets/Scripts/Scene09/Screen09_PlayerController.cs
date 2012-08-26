@@ -13,6 +13,7 @@ public class Screen09_PlayerController : MonoBehaviour {
 	private bool flipped = false;
 	
 	private Vector3 target = Vector3.zero;
+	private bool _alreadyDead = false;
 	
 	void Start ()
 	{
@@ -58,7 +59,7 @@ public class Screen09_PlayerController : MonoBehaviour {
 	
 	private void UpdateFire ()
 	{
-		if (Input.GetMouseButtonDown (0) || Input.GetButtonDown ("Fire1")) {
+		if (Input.GetButtonDown ("Fire1")) {
 			Fire ();
 		}
 	}
@@ -81,11 +82,15 @@ public class Screen09_PlayerController : MonoBehaviour {
 		gameObject.transform.position = initialPosition;
 		rage.SetSprite ("e", 0);
 		rage.PlayNamedAnimation ("idle");
+		_alreadyDead = false;
 	}
 	
 	public void Die (bool andReset=false)
 	{
-		StartCoroutine (DoDie (andReset));
+		if (!_alreadyDead) {
+			_alreadyDead=true;
+			StartCoroutine (DoDie (andReset));
+		}
 	}
 	
 	IEnumerator DoDie (bool andReset)
