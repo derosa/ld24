@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour {
 		if (transform.position.y < -rage.GetSizeY() * 5f) {
 			transform.position = initialPosition;
 			velocity = Vector3.zero;
-			//GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
+			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("ResetGame");
 		}
 		
 	}
@@ -79,12 +79,12 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	
-	public void Die ()
+	public void Die (bool andReset=false)
 	{
-		StartCoroutine (DoDie());
+		StartCoroutine (DoDie(andReset));
 	}
 	
-	IEnumerator DoDie ()
+	IEnumerator DoDie (bool andReset)
 	{
 		IRagePixel rage = GetComponent<RagePixelSprite> ();
 		rage.StopAnimation ();
@@ -92,6 +92,9 @@ public class PlayerController : MonoBehaviour {
 		rage.PlayNamedAnimation ("explode");
 		while (rage.isPlaying()) {
 			yield return new WaitForSeconds(0.1f);
+		}
+		if (andReset) {
+			Reset ();
 		}
 		yield return 0;
 	}
