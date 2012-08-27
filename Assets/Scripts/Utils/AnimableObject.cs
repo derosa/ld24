@@ -17,6 +17,7 @@ public class AnimableObject : MonoBehaviour {
 		while (rage.isPlaying()) {
 			yield return new WaitForSeconds(0.1f);
 		}
+		
 		Destroy (_rage);
 		yield return 0;
 	}

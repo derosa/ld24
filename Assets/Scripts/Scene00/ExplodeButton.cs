@@ -28,7 +28,7 @@ public class ExplodeButton : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(delay);
 		Vector3 explodePosition = o.transform.position;
-		o.SendMessage ("Explode", SendMessageOptions.RequireReceiver);	
+		o.SendMessage ("Explode", SendMessageOptions.RequireReceiver);
 		while (o != null) {
 			yield return new WaitForSeconds(0.1f);
 		}
@@ -39,5 +39,6 @@ public class ExplodeButton : MonoBehaviour {
 				c.rigidbody.AddExplosionForce (1000, explodePosition, 20);
 			}
 		}
+		
 	}
 }

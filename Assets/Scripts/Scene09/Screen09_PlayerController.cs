@@ -72,9 +72,10 @@ public class Screen09_PlayerController : MonoBehaviour {
 		} else {
 			direction = Vector3.right;
 		}
-		direction *= rage.GetSizeX() * 0.75f;
+		direction *= rage.GetSizeX () * 0.75f;
 		GameObject b = Instantiate (bullet, transform.position + direction, Quaternion.identity) as GameObject;
 		b.SendMessage ("SetTarget", target);
+		SendMessage("SoundLaser");
 	}
 	
 	public void Reset ()
@@ -88,7 +89,8 @@ public class Screen09_PlayerController : MonoBehaviour {
 	public void Die (bool andReset=false)
 	{
 		if (!_alreadyDead) {
-			_alreadyDead=true;
+			audio.SendMessage("SoundDie");
+			_alreadyDead = true;
 			StartCoroutine (DoDie (andReset));
 		}
 	}

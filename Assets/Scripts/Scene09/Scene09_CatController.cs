@@ -10,6 +10,7 @@ public class Scene09_CatController : MonoBehaviour {
 	private float seekTime;
 	private GameObject player;
 	
+	
 	void Start ()
 	{
 		player = GameObject.FindGameObjectWithTag ("Player");
@@ -21,7 +22,7 @@ public class Scene09_CatController : MonoBehaviour {
 		rage.SetTintColor (ColorUtils.RandomColor ());
 		rage.PlayNamedAnimation ("idle");
 		
-		seekTime = Time.time + Random.Range (0f, 10.0f);
+		seekTime = Time.time + Random.Range (0f, 5.0f);
 	}
 	
 	void Update ()
@@ -52,8 +53,8 @@ public class Scene09_CatController : MonoBehaviour {
 	
 	public void Die ()
 	{
-		Debug.Log ("Miau, me mataron...");
 		_active = false;
+		audio.Play ();
 		AnimateAndDestroy (gameObject, "die");
 	}
 	

@@ -27,6 +27,7 @@ public class Scene07_LetterController : MonoBehaviour {
 	{
 		if (other.CompareTag ("Player") && !_alreadyCaptured) {
 			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("LetterGrabbed");
+			audio.Play ();
 			// Lets reposition in front of the player, so the fade looks nice.
 			_alreadyCaptured = true;
 			StartCapturedTweening ();

@@ -13,8 +13,9 @@ public class Dinamite : AnimableObject {
 	}
 	
 	public void Explode ()
-	{
-		//Debug.Log ("Exploding!!!!");
+	{	
+		audio.Play ();
 		AnimateAndDestroy (gameObject, "explosion");
+
 	}	
 }

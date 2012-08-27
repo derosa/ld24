@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetAxis ("Vertical") > 0.0f && controller.isGrounded) {
 			//Debug.Log ("Salta");
 			velocity.y = jumpPower;
+			SendMessage("SoundJump");
 			//rigidbody.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
 			//canJump = false;
 		}
@@ -81,7 +82,9 @@ public class PlayerController : MonoBehaviour {
 	
 	public void Die (bool andReset=false)
 	{
-		StartCoroutine (DoDie(andReset));
+					SendMessage ("SoundDie");
+
+		StartCoroutine (DoDie (andReset));
 	}
 	
 	IEnumerator DoDie (bool andReset)

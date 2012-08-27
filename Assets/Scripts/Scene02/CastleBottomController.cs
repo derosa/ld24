@@ -16,6 +16,7 @@ public class CastleBottomController : MonoBehaviour {
 	public void OnMouseDown ()
 	{
 		Debug.Log ("Click");
+		audio.Play();
 		nClicksToBreak--;
 		if (nClicksToBreak < 0) {
 			ExplodeAndDestroy ();

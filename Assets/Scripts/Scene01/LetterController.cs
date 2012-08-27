@@ -25,6 +25,7 @@ public class LetterController : MonoBehaviour {
 				Debug.Log ("Letra capturada!");
 				StartCapturedTweening ();
 				GameObject.FindGameObjectWithTag ("GameController").SendMessage ("LetterCaptured");
+				other.SendMessage("SoundCoin");
 			}
 		}
 	}

@@ -28,7 +28,6 @@ public class Scene09_GameController : MonoBehaviour {
 
 	void PlayerHit ()
 	{
-		Debug.Log ("Pobre");
 		lifes--;
 		if (lifes < 0 & ! alreadyDead) {
 			alreadyDead = true;
@@ -73,7 +72,7 @@ public class Scene09_GameController : MonoBehaviour {
 	
 	public void RestartFromLevel0 ()
 	{
-		Application.LoadLevel ("Scene00_LD10_chainReaction");
+		Application.LoadLevel ("Scene_Menu");
 	}
 	
 	/*************/
@@ -89,9 +88,9 @@ public class Scene09_GameController : MonoBehaviour {
 		winScreen.SetActiveRecursively (true);
 	}
 	
-	public void OkFromGameWin(){
-		winScreen.SetActiveRecursively (false);
-		PlayPressed();
+	public void OkFromGameWin ()
+	{
+		RestartFromLevel0();
 	}
 		
 	/*************/
@@ -101,8 +100,9 @@ public class Scene09_GameController : MonoBehaviour {
 		title.enabled = true;
 		evol = "EVOLUTION";
 		nCats = catsToKill;
-		lifes = playerLifes -1;
+		lifes = playerLifes - 1;
 		alreadyDead = false;
+		SendMessage ("SetCatSpawnRate", 2);
 		UpdateTitle ();
 		
 		foreach (GameObject cat in GameObject.FindGameObjectsWithTag("cat")) {
@@ -141,7 +141,5 @@ public class Scene09_GameController : MonoBehaviour {
 		
 		string e = evol.Substring (0, lifes);
 		title.text = "LD24 - " + e + " vs " + nCats + " kittens";
-	}
-	
-	
+	}	
 }

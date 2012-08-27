@@ -16,6 +16,7 @@ public class Scene05_KeyController : MonoBehaviour {
 
 		if (other.CompareTag ("Player") && !alreadyCaptured) {
 			alreadyCaptured = true;
+			audio.Play ();
 			StartCapturedTweening ();
 			GameObject.FindGameObjectWithTag ("GameController").SendMessage ("KeyGrabbed");
 		}
